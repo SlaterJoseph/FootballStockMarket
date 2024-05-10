@@ -1,7 +1,7 @@
 import datetime
 import json
 import pandas as pd
-from url_lists import abbreviations as ab, defense_list
+from url_lists import short_hand as ab, defense_list
 
 
 def build_csv(csv_type: str, url_list: list, team_url: str) -> None:
@@ -30,8 +30,15 @@ def build_csv(csv_type: str, url_list: list, team_url: str) -> None:
             df_list.append(df)
 
     df = df_list[0]
+
     for i in range(1, len(df_list)):
-        df = pd.merge(df, df_list[i], on=['Player', 'Team', 'Pos', 'Season'], how='outer')
+        on = {'Player', 'Team', 'Season', 'Pos', df.columns[-1]}
+
+        new_df = df_list[i]
+        if new_df.columns[-1] != df.columns[-1]:
+            on.remove(df.columns[-1])
+
+        df = pd.merge(df, new_df, on=list(on), how='outer')
 
     df.to_csv(f'../../CSVs/Seasonally/{csv_type}.csv')
 

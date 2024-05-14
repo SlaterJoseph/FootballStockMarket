@@ -1,8 +1,10 @@
 Name,PlayerID,Experience,Height,Weight,Position,Age,Team,TeamID,isFreeAgent,Headshot,espnID
+Damontae Kazee,2976099,7,"5'11""",174,S,30,PIT,26,False,https://a.espncdn.com/i/headshots/nfl/players/full/2976099.png,2976099
+Brandin Echols,4567979,3,"5'10""",175,CB,26,NYJ,25,False,https://a.espncdn.com/i/headshots/nfl/players/full/4567979.png,4567979
 Jake Brendel,2577185,7,"6'4""",299,C,31,SF,28,False,https://a.espncdn.com/i/headshots/nfl/players/full/2577185.png,2577185
 Jack Coco,4240499,2,"6'2""",248,LS,25,ARI,1,True,https://a.espncdn.com/i/headshots/nfl/players/full/4240499.png,4240499
 Randen Plattner,4373084,R,"6'3""",241,LS,24,BAL,3,False,https://a.espncdn.com/i/headshots/college-football/players/full/4373084.png,4373084
-Drue Tranquill,3129310,6,"6'2""",234,LB,28,KC,16,False,https://a.espncdn.com/i/headshots/nfl/players/full/3129310.png,3129310
+Drue Tranquill,3129310,6,"6'2""",234, LB,28,KC,16,False,https://a.espncdn.com/i/headshots/nfl/players/full/3129310.png,3129310
 Ty'Son Williams,3895827,2,"6'0""",220,RB,27,ARI,1,True,https://a.espncdn.com/i/headshots/nfl/players/full/3895827.png,3895827
 Jaxon Smith-Njigba,4430878,R,"6'0""",197,WR,22,SEA,29,False,https://a.espncdn.com/i/headshots/nfl/players/full/4430878.png,4430878
 MyCole Pruitt,2508256,8,"6'2""",258,TE,32,PIT,26,False,https://a.espncdn.com/i/headshots/nfl/players/full/2508256.png,2508256
@@ -279,8 +281,6 @@ Coleman Shelton,3052180,6,"6'5""",285,G,28,CHI,6,False,https://a.espncdn.com/i/h
 Keir Thomas,4038843,3,"6'2""",275,LB,26,LAR,19,False,https://a.espncdn.com/i/headshots/nfl/players/full/4038843.png,4038843
 Tommy Doyle,4038986,4,"6'8""",320,OT,26,BUF,4,False,https://a.espncdn.com/i/headshots/nfl/players/full/4038986.png,4038986
 Kendall Fuller,3045465,9,"5'11""",196,CB,29,MIA,20,False,https://a.espncdn.com/i/headshots/nfl/players/full/3045465.png,3045465
-Damontae Kazee,2976099,7,"5'11""",174,S,30,PIT,26,False,https://a.espncdn.com/i/headshots/nfl/players/full/2976099.png,2976099
-Brandin Echols,4567979,3,"5'10""",175,CB,26,NYJ,25,False,https://a.espncdn.com/i/headshots/nfl/players/full/4567979.png,4567979
 Mike McAllister,4368423,1,"6'2""",305,C,24,LAR,19,False,https://a.espncdn.com/i/headshots/nfl/players/full/4368423.png,4368423
 Christian Covington,2580666,9,"6'2""",289,DT,30,LAC,18,True,https://a.espncdn.com/i/headshots/nfl/players/full/2580666.png,2580666
 Mason Crosby,10636,17,"6'1""",212,PK,39,NYG,24,True,https://a.espncdn.com/i/headshots/nfl/players/full/10636.png,10636

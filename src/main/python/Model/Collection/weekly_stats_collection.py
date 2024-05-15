@@ -24,6 +24,8 @@ positional_weekly_stats = {
     'DB': {'defensive', 'defensiveInterceptions', 'general', 'scoring', 'returning'},
 }
 
+file = open('errors.txt', 'w')
+
 
 def get_player_stats() -> None:
     """
@@ -62,7 +64,11 @@ def get_player_stats() -> None:
                 for item in response['events']['items']:
                     if 'statistics' in item:
                         stats_url = item['statistics']['$ref']
-                        stats = json.loads(requests.get(stats_url).text)
+                        try:
+                            stats = json.loads(requests.get(stats_url).text)
+                        except Exception as e:
+                            file.write(f'Player: {player[0]}: Exception {e}\n')
+                            continue
 
                         for entry in stats['splits']['categories']:
                             # Weed out the stats which don't affect certain players

@@ -1,48 +1,71 @@
 import datetime
-import json
+import glob
+import os
 import pandas as pd
-from url_lists import short_hand as ab, defense_list
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from url_lists import season_stat_urls, url_pairings
+from io import StringIO
+
+years = datetime.date.today().year
+years = [years - x - 1 for x in range(3)]
 
 
-def build_csv(csv_type: str, url_list: list, team_url: str) -> None:
-    year = datetime.date.today().year
-    id_list = [year - 2003 - x for x in range(3)]
-    df_list = list()
+def build_csv_seasonal():
+    try:
+        files = glob.glob(os.path.join('../../CSVs/Seasonally', '*'))
+        for file in files:
+            if os.path.isfile(file):
+                os.remove(file)
+    except OSError:
+        print("Error occurred while deleting files.")
 
-    with open(team_url, 'r') as file:
-        teams = json.load(file)
+    service = Service()
+    options = webdriver.ChromeOptions()
+    driver = webdriver.Chrome(service=service, options=options)
 
-    for i in range(len(url_list)):
-        for year_id in id_list:
-            url = url_list[i].replace('!', str(year_id))
+    for url, name in zip(season_stat_urls, url_pairings):
+        df = None
 
-            # Get the column name
-            col_name = ab[url.split('/')[-1].split('?')[0]]
-            year = int(url.split('/')[-1].split('?')[1].split('=')[1]) + 2001
+        for year in years:
+            used_url = url.replace('!', str(year))
+            print(used_url)
+            driver.get(used_url)
 
-            # Modifying the dataframe
-            df = pd.read_html(url)[0]
-            df['Season'] = year
-            df.drop(columns=['Rank'], inplace=True)
-            df = df[['Player', 'Season', 'Team', 'Pos', 'Value']]
-            df.rename(columns={'Value': col_name}, inplace=True)
-            df['Team'] = df['Team'].map(teams['team_to_abbreviation'])
-            df_list.append(df)
+            show_more = driver.find_element(By.LINK_TEXT, 'Show More')
+            while show_more:
+                show_more.click()
+                driver.implicitly_wait(0.3)
 
-    df = df_list[0]
+                try:
+                    show_more = driver.find_element(By.LINK_TEXT, 'Show More')
 
-    for i in range(1, len(df_list)):
-        on = {'Player', 'Team', 'Season', 'Pos', df.columns[-1]}
+                # To stop the rest of the Show Mores
+                except Exception:
+                    print('No more Show Mores')
+                    show_more = False
+                    continue
 
-        new_df = df_list[i]
-        if new_df.columns[-1] != df.columns[-1]:
-            on.remove(df.columns[-1])
-
-        df = pd.merge(df, new_df, on=list(on), how='outer')
-
-    df.to_csv(f'../../CSVs/Seasonally/{csv_type}.csv')
-
-
-build_csv('defense', defense_list, '../../../Utils/TeamConversions.json')
+            dfs = pd.read_html(StringIO(driver.page_source))
 
 
+            names = dfs[0]
+            stats = dfs[1]
+
+            # Cleaning up and merging the dataframes
+            names.drop('RK', axis=1, inplace=True)
+            names[['Name', 'Team']] = names['Name'].str.extract(r'^(.*?)([A-Z]{2,3})$')
+            names['Season'] = year
+            names = names.merge(stats, left_index=True, right_index=True)
+
+            if year != years[0]:
+                df = pd.concat([df, names], axis=0)
+            else:
+                df = names
+
+        df.to_csv(f'../../CSVs/Seasonally/{name}.csv')
+    driver.quit()
+
+
+build_csv_seasonal()

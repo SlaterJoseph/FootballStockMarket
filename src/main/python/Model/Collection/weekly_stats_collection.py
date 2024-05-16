@@ -24,7 +24,8 @@ positional_weekly_stats = {
     'DB': {'defensive', 'defensiveInterceptions', 'general', 'scoring', 'returning'},
 }
 
-file = open('errors.txt', 'w')
+csvs_titles = ['general', 'passing', 'rushing', 'receiving', 'defensive', 'defensiveInterceptions', 'kicking',
+               'returning', 'punting', 'scoring']
 
 
 def get_player_stats() -> None:
@@ -33,7 +34,7 @@ def get_player_stats() -> None:
     wanted NFL player
     :return: None
     """
-    csvs = initiate_csvs()
+    csvs = initiate_csvs('Weekly', csvs_titles)
 
     # Reading in the data from our player CSV
     players = csv.reader(open('../../CSVs/players.csv'))
@@ -64,11 +65,7 @@ def get_player_stats() -> None:
                 for item in response['events']['items']:
                     if 'statistics' in item:
                         stats_url = item['statistics']['$ref']
-                        try:
-                            stats = json.loads(requests.get(stats_url).text)
-                        except Exception as e:
-                            file.write(f'Player: {player[0]}: Exception {e}\n')
-                            continue
+                        stats = json.loads(requests.get(stats_url).text)
 
                         for entry in stats['splits']['categories']:
                             # Weed out the stats which don't affect certain players
@@ -111,7 +108,7 @@ def build_csv_headers() -> {str: list}:
     return csv_headers
 
 
-def initiate_csvs() -> {str: csv.writer}:
+def initiate_csvs(group: str, titles: list) -> {str: csv.writer}:
     """
     Initializes the csv writers for the different csvs
     :return: A dictionary of str : writers, where the key is the name and the value is the csv writer
@@ -119,22 +116,21 @@ def initiate_csvs() -> {str: csv.writer}:
 
     # Deleting the old CSVs
     try:
-        files = glob.glob(os.path.join('../..//CSVs/Weekly', '*'))
+        files = glob.glob(os.path.join('../../CSVs/Weekly', '*'))
         for file in files:
             if os.path.isfile(file):
                 os.remove(file)
     except OSError:
         print("Error occurred while deleting files.")
 
-    csvs_titles = ['general', 'passing', 'rushing', 'receiving', 'defensive', 'defensiveInterceptions', 'kicking',
-                   'returning', 'punting', 'scoring']
-
     csv_headers = build_csv_headers()
+
     csvs = dict()
 
-    for title in csvs_titles:
-        writer = csv.writer(open(f'../../CSVs/Weekly/{title}.csv', 'a', newline=''))
+    for title in titles:
+        writer = csv.writer(open(f'../../CSVs/{group}/{title}.csv', 'a', newline=''))
         writer.writerow(csv_headers[title])
+
         csvs[title] = writer
 
     return csvs

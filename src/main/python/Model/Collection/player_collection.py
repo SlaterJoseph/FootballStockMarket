@@ -5,9 +5,11 @@ import json
 
 def create_player_csv() -> None:
     """
-    A function which calls the RapidAPI which generates player data
-    CSV Format [longName, playerID, exp, pos, age, team, teamID, espnHeadshot, isFreeAgent]
-    :return: None
+    A function which calls the RapidAPI's player endpoint to compile a list off all NFL players and grab
+    useful information for each, and then put said information in a CSV
+    Returns
+    -------
+
     """
     # Writes the initial header line
     headers = ['Name', 'PlayerID', 'Experience', 'Height', 'Weight', 'Position', 'Age', 'Team', 'TeamID', 'isFreeAgent',

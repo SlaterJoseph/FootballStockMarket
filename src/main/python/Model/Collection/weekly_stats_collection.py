@@ -30,9 +30,11 @@ csvs_titles = ['general', 'passing', 'rushing', 'receiving', 'defensive', 'defen
 
 def get_player_stats() -> None:
     """
-    A function which webs scrapes ESPN to compile a list of the last 3 seasons stats for every
-    wanted NFL player
-    :return: None
+    A function which uses ESPNs weekly stat guide to compile all relevant stats of each player for the 3 seasons.
+    CSVs need to be further preprocessed as the CSVs are made from positional use, not relevant players.
+    I.E. a player who did not see the game will have a 0 stat line but still has an entry in the CSV
+    Returns None
+    -------
     """
     csvs = initiate_csvs('Weekly', csvs_titles)
 
@@ -89,8 +91,10 @@ def get_player_stats() -> None:
 
 def build_csv_headers() -> {str: list}:
     """
-    Builds the headers for the different csvs
-    :return: A dictionary of str : list pairs, where the key is the csv name and the list is the header
+    Builds the headers that all the csvs will be using
+    Returns A dictionary of CSV headers where each key is the title of the CSV
+    -------
+
     """
     # Just a single player url for reference
     url = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/events/401547408/competitions/401547408' \
@@ -110,10 +114,14 @@ def build_csv_headers() -> {str: list}:
 
 def initiate_csvs(group: str, titles: list) -> {str: csv.writer}:
     """
-    Initializes the csv writers for the different csvs
-    :return: A dictionary of str : writers, where the key is the name and the value is the csv writer
+    Initializes the CSVs to add the stats too
+    Parameters
+    ----------
+    group - The folder the csv will fall under
+    titles - The title that each CSV
+    Returns A dictionary of CSV writers with keys of strings of their to be titles
+    -------
     """
-
     # Deleting the old CSVs
     try:
         files = glob.glob(os.path.join('../../CSVs/Weekly', '*'))
@@ -124,7 +132,6 @@ def initiate_csvs(group: str, titles: list) -> {str: csv.writer}:
         print("Error occurred while deleting files.")
 
     csv_headers = build_csv_headers()
-
     csvs = dict()
 
     for title in titles:

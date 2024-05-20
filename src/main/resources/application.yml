@@ -1,0 +1,5 @@
+schedule:
+  cron:
+    seasonal: "0 0 0 31 8 ?"
+    weekly: "0 0 0 ? 1,9-12 1,2,5"
+    depth-charts: "0 0 0 ? 1,9-12 3"

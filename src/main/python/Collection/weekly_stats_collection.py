@@ -39,7 +39,7 @@ def get_player_stats() -> None:
     csvs = initiate_csvs('Weekly', csvs_titles)
 
     # Reading in the data from our player CSV
-    players = csv.reader(open('../../CSVs/players.csv'))
+    players = csv.reader(open('../CSVs/players.csv'))
     player_headers = next(players)
     player_list = list()
 
@@ -124,7 +124,7 @@ def initiate_csvs(group: str, titles: list) -> {str: csv.writer}:
     """
     # Deleting the old CSVs
     try:
-        files = glob.glob(os.path.join('../../CSVs/Weekly', '*'))
+        files = glob.glob(os.path.join('../CSVs/Weekly', '*'))
         for file in files:
             if os.path.isfile(file):
                 os.remove(file)

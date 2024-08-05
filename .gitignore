@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignore Firebase service account key
+src/main/resources/fantasy-football-stock-market-firebase-adminsdk-wmoge-f8955fb5bc.json
+
+# Ignore application-production
+src/main/resources/application-production.properties
